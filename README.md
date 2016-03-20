@@ -1,12 +1,12 @@
 # Using Azure Storage on DCOS for HA
 
+Shows how to use Azure Storage on DCOS for highly available services/stateful failover.
+
 ## DCOS cluster
 
-Launch a [DCOS/ACS cluster](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fgist.githubusercontent.com%2Fmhausenblas%2Fa8247ecf4a791813626a%2Fraw%2F673cc5a69791e078c82f806a58ce44d344b38e29%2Fazuredeploy.nojumpbox.json). Note: in the ARM template `containerService.properties.orchestratorProfile.orchestratorType` has changed from `openDcosPreview` to `DcosPreview`, see https://gist.github.com/mhausenblas/a8247ecf4a791813626a for a patch.
+First, using an [ARM template](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fgist.githubusercontent.com%2Fmhausenblas%2Fa8247ecf4a791813626a%2Fraw%2F673cc5a69791e078c82f806a58ce44d344b38e29%2Fazuredeploy.nojumpbox.json), launch a DCOS cluster on Azure. Note: in the ARM template `containerService.properties.orchestratorProfile.orchestratorType` has changed from `openDcosPreview` to `DcosPreview`, see https://gist.github.com/mhausenblas/a8247ecf4a791813626a for a patch.
 
-After launching the ARM template, in the parameters you must set the DNS prefix (`jenkins` in my case) and, assuming you have created an [SSH key pair](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-use-ssh-key/), you need to provide your public key (replace the value for `sshRSAPublicKey`) with something like this (your own public key value):
-
-    ssh-rsa AAAAB...UcyupgH azureuser@linuxvm
+After launching the ARM template, in the parameters you must set the DNS prefix (`jenkins` in my case) and, assuming you generated an [SSH key pair](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-use-ssh-key/) locally already, you need to provide your public key in the template. To do that, replace the value for `sshRSAPublicKey` with something like `ssh-rsa AAAAB...UcyupgH azureuser@linuxvm` (using your own public key value). The result should looks like so:
 
 ![Azure Portal: DNS prefix and SSH key](acs-template-dns-and-ssh-key.png)
 
