@@ -1,12 +1,12 @@
-# Using Azure Storage on DCOS for HA
+# Using Azure Storage on DC/OS for HA
 
-Shows how to use Azure Storage on DCOS for highly available services/stateful failover.
+Shows how to use Azure Storage on DC/OS for highly available services/stateful failover.
 
-## DCOS cluster
+## DC/OS cluster
 
-First, [launch a DCOS cluster using an ARM template](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fgist.githubusercontent.com%2Fmhausenblas%2Fa8247ecf4a791813626a%2Fraw%2F673cc5a69791e078c82f806a58ce44d344b38e29%2Fazuredeploy.nojumpbox.json) on Azure.
+First, [launch a DC/OS cluster on Azure](https://dcos.io/docs/1.7/administration/installing/cloud/azure/).
 
-After launching the ARM template, in the parameters you must set the DNS prefix (`jenkins` in my case) and, assuming you generated an [SSH key pair](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-use-ssh-key/) locally already, you need to provide your public key in the template. To do that, replace the value for `sshRSAPublicKey` with something like `ssh-rsa AAAAB...UcyupgH azureuser@linuxvm` (using your own public key value). The result should look like so:
+After launching the ARM template via the Marketplace offering you need to set the DNS prefix (`jenkins` in my case) and, assuming you generated an [SSH key pair](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-use-ssh-key/) locally already, you need to provide your public key in the template. To do that, replace the value for `sshRSAPublicKey` with something like `ssh-rsa AAAAB...UcyupgH azureuser@linuxvm` (using your own public key value). The result should look like so:
 
 ![Azure Portal: DNS prefix and SSH key](acs-template-dns-and-ssh-key.png)
 
@@ -26,7 +26,7 @@ Now you can create a file share (`jenkins` was what I chose):
 
 ## Mounting the File Share
 
-Now log into the DCOS master node: for that, look up SSH connection string labeled `SSHMASTER0` in the `Microsoft.Template` deployments `Outputs` section 
+Now log into the DC/OS master node: for that, look up SSH connection string labeled `SSHMASTER0` in the `Microsoft.Template` deployments `Outputs` section 
 
 ![Azure Portal: Deployment Output](azure-portal-deployment-output.png)
 
@@ -87,7 +87,7 @@ To check if the file share works, we upload a test file via the Azure portal:
 
 ![Azure Portal: Storage File Upload](azure-portal-storage-fileupload.png)
 
-… and then list the content of the mounted file share on the DCOS master node:
+… and then list the content of the mounted file share on the DC/OS master node:
 
     azureuser@dcos-master-415F65E0-0:~$ ls -al /mnt/jenkins
     total 1
